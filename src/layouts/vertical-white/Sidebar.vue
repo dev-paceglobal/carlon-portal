@@ -65,17 +65,17 @@
           </v-scroll-x-transition>
         </v-list-item>
         <v-list-item class="pa-1 ml-5 mt-5" two-line :class="miniVariant && 'px-1'">
-          <v-list-item-avatar
+          <!-- <v-list-item-avatar
             class="ml-n1"
             min-width="40"
             height="40"
             width="40"
           >
             <v-img src="@/assets/images/faces/1.jpg" />
-          </v-list-item-avatar>
+          </v-list-item-avatar> -->
 
           <v-list-item-content>
-            <v-list-item-title class="text-16 mb-1 font-weight-regular"
+            <v-list-item-title class="text-16 mb-1 font-weight-regular ml-3"
               >Carlon</v-list-item-title
             >
             <!-- <v-divider class="d-block" /> -->

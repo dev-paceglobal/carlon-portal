@@ -48,7 +48,7 @@
                             </p>
                         </div>
                     </template>
-                    <template v-slot:item.action="{item}">
+                    <!-- <template v-slot:item.action="{item}">
                         <div class="d-flex">
                             <v-tooltip top>
                                 <template v-slot:activator="{on, attrs}">
@@ -80,7 +80,7 @@
                                 <span>Delete</span>
                             </v-tooltip>
                         </div>
-                    </template>
+                    </template> -->
                     <template v-slot:item.badge="{item}">
                         <template v-if="item.badge === 'Active'">
                             <v-chip
@@ -135,7 +135,7 @@ export default {
                 {text: 'Service', value: 'carbs'},
                 {text: 'Frequency', value: 'protein'},
                 {text: 'Message', value: 'new'},
-                {text: 'Action', value: 'action'}
+
             ],
             desserts: [
                 {
