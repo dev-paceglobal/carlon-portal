@@ -32,24 +32,40 @@
                     v-model="selected"
                     :search="search"
                     :headers="headers"
-                    :items="desserts"
-                    item-key="name"
+                    :items="getServices"
+                    item-key="title"
+                    :loading="loading"
                     show-select
                     class="elevation-1 table-one"
                     multi-sort
+                    
                 >
                     <template v-slot:item.name="{item}">
                         <div class="d-flex align-center">
                             <v-avatar class="mr-2" size="26" dark>
-                                <img :src="item.img" alt="" />
+                                <img :src="item.image" alt="" />
                             </v-avatar>
                             <p class="ma-0 font-weight-medium">
-                                {{ item.name }}
+                                {{ item.title }}
                             </p>
                         </div>
                     </template>
                     <template v-slot:item.action="{item}">
                         <div class="d-flex">
+                            <v-tooltip top>
+                                <template v-slot:activator="{on, attrs}">
+                                    <v-btn
+                                        color="secondary"
+                                        dark
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        icon
+                                    >
+                                        <v-icon>mdi-eye</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>View</span>
+                            </v-tooltip>
                             <v-tooltip top>
                                 <template v-slot:activator="{on, attrs}">
                              <v-btn
@@ -81,6 +97,7 @@
                             </v-tooltip>
                         </div>
                     </template>
+                    <!-- 
                     <template v-slot:item.badge="{item}">
                         <template v-if="item.badge === 'Active'">
                             <v-chip
@@ -106,7 +123,7 @@
                                 {{ item.badge }}
                             </v-chip>
                         </template>
-                    </template>
+                    </template> -->
                 </v-data-table>
             </base-card>
         </v-col>
@@ -114,48 +131,56 @@
 </template>
 
 <script>
+
 export default {
     metaInfo: {
         // title will be injected into parent titleTemplate
-        title: 'Table One'
+        title: 'Services '
     },
     data() {
         return {
-            search: '',
+            search: '',  loading:false,
+            services: [
+                {
+                    id : 1,
+                    title: 'lorem p',
+                    image: 'sad.jpg',
+                },
+                {
+                    id : 2,
+                    title: 'losadrem p',
+                    image: 'sad.jpg',
+                },
+                {
+                    id : 3,
+                    title: 'servie p',
+                    image: 'sad.jpg',
+                },
+            ],
             selected: [],
             headers: [
 
-                {text: 'Services', value: 'service'},
-
+                {text: 'Services', value: 'title'},
+                {text: 'Short Description', value: 'short_description'},
+                {text: 'Actions', value: 'action'},
             ],
-            desserts: [
-                {
-                    service: 'Window Cleaning',
-
-                },
-                {
-                    service: 'Carpet Cleaning',
-
-                },
-                {
-                    service: 'Floor Cleaning',
-
-                },
-                {
-                    service: 'Bathroom Cleaning',
-
-                },
-                {
-                    service: 'Sofa Cleaning',
-
-                },
-                {
-                    service: 'Kitchen Cleaning',
-
-                },
-
-            ]
+           
+            
         }
+    },
+    computed: {
+
+        getServices() {
+            
+            return  this.$store.getters.Services;
+            // ...mapGetters(['Services'])
+
+        },
+    },
+   
+    mounted() {
+        this.$store.dispatch('Services');
+
     }
 }
 </script>

@@ -8,10 +8,10 @@ export default {
   metaInfo() {
     return {
       // if no subcomponents specify a metaInfo.title, this title will be used
-      title: "Octavia-Admin",
+      title: "NewAge-Commercial",
       // all titles will be injected into this template
       titleTemplate:
-        "%s | Octavia Admin - Vuejs & VuetifyJs Admin Dashboard Template "
+        "%s | New Age Commercial | Portal"
     };
   },
   methods: {

@@ -22,142 +22,176 @@ import authenticate from "@/auth/authenticate";
 Vue.use(Router);
 
 const router = new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  scrollBehavior: (to, from, savedPosition) => {
-    if (to.hash) return { selector: to.hash };
-    if (savedPosition) return savedPosition;
+    mode: "history",
+    base: process.env.BASE_URL,
+    scrollBehavior: (to, from, savedPosition) => {
+        if (to.hash) return { selector: to.hash };
+        if (savedPosition) return savedPosition;
 
-    return { x: 0, y: 0 };
-  },
-  routes: [
-    {
-      path: "/",
-      component: () => import("@/views/app/Index"),
-      beforeEnter: authenticate,
-      redirect: "/app/pages/Blank",
-
-      children: [
-        // {
-        //   path: "layout/:layout",
-        //   component: () => import("@/views/app/Index")
-        // },
-
-        {
-          path: "/app/pages",
-          component: () => import("@/views/app/pages/Pages"),
-          children: [
-            {
-              path: "blank",
-              component: () => import("@/views/app/pages/Blank")
-            },
-            {
-              path: "services",
-              component: () => import("@/views/app/pages/Services")
-            },
-            {
-              path: "frequency",
-              component: () => import("@/views/app/pages/Frequency")
-            },
-            {
-              path: "addservice",
-              component: () => import("@/views/app/pages/AddServices")
-            }
-
-          ]
-        }
-      ]
+        return { x: 0, y: 0 };
     },
-    {
-      path: "/app/sessions",
-      component: () => import("@/views/app/sessions/Sessions"),
+    routes: [{
+            path: "/",
+            component: () =>
+                import ("@/views/app/Index"),
+            beforeEnter: authenticate,
+            redirect: "/app/login",
 
-      children: [
-        {
-          path: "sign-in",
-          component: () => import("@/views/app/sessions/SignIn")
+            children: [
+                // {
+                //   path: "layout/:layout",
+                //   component: () => import("@/views/app/Index")
+                // },
+
+                {
+                    path: "/app",
+                    component: () =>
+                        import ("@/views/app/pages/Pages"),
+                    children: [{
+                            path: "bookings",
+                            name: "Bookings",
+                            component: () =>
+                                import ("@/views/app/pages/Bookings")
+                        },
+                        {
+                            path: "services",
+                            name: 'Services',
+
+                            component: () =>
+                                import ("@/views/app/pages/Services")
+                        },
+                        {
+                            path: "frequency",
+                            component: () =>
+                                import ("@/views/app/pages/Frequency")
+                        },
+                        {
+                            path: "addservice",
+                            component: () =>
+                                import ("@/views/app/pages/AddServices")
+                        }
+
+                    ]
+                }
+            ]
         },
         {
-          path: "error",
-          component: () => import("@/views/app/sessions/Error")
+            path: "/app",
+            component: () =>
+                import ("@/views/app/sessions/Sessions"),
+            children: [{
+                    path: "login",
+                    name: 'Login',
+                    component: () =>
+                        import ("@/views/app/sessions/Login"),
+                },
+                {
+                    path: "forgot",
+                    name: 'Forgot',
+                    component: () =>
+                        import ("@/views/app/sessions/Forgot"),
+                },
+                {
+                    path: "lock",
+                    name: 'Lock',
+                    component: () =>
+                        import ("@/views/app/sessions/Lockscreen"),
+                },
+                {
+                    path: "error",
+                    name: 'Error',
+                    component: () =>
+                        import ("@/views/app/sessions/Error"),
+                }
+            ],
+
         },
-        {
-          path: "forgot",
-          component: () => import("@/views/app/sessions/Forgot")
-        },
-        {
-          path: "lockscreen",
-          component: () => import("@/views/app/sessions/Lockscreen")
-        },
-        {
-          path: "sign-in-two",
-          name: "login",
-          component: () => import("@/views/app/sessions/SignInTwo")
-        },
-        {
-          path: "sign-in-three",
-          component: () => import("@/views/app/sessions/SignInThree")
-        },
-        {
-          path: "sign-in-four",
-          component: () => import("@/views/app/sessions/SignInFour")
-        },
-        {
-          path: "sign-in-five",
-          component: () => import("@/views/app/sessions/SignInFive")
-        },
-        {
-          path: "sign-up",
-          component: () => import("@/views/app/sessions/SignUp")
-        },
-        {
-          path: "sign-up-2",
-          name: "signup",
-          component: () => import("@/views/app/sessions/SignUpTwo")
-        },
-        {
-          path: "sign-up-5",
-          component: () => import("@/views/app/sessions/SignUpFive")
-        }
-      ]
-    }
-  ]
+        // {
+        //     path: "/app/sessions",
+        //     component: () =>
+        //         import ("@/views/app/sessions/Sessions"),
+
+        //     children: [{
+        //             path: "sign-in",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/SignIn")
+        //         },
+        //         {
+        //             path: "error",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/Error")
+        //         },
+        //         {
+        //             path: "forgot",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/Forgot")
+        //         },
+        //         {
+        //             path: "lockscreen",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/Lockscreen")
+        //         },
+        //         {
+        //             path: "sign-in-two",
+        //             name: "login",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/SignInTwo")
+        //         },
+        //         {
+        //             path: "sign-in-three",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/SignInThree")
+        //         },
+        //         {
+        //             path: "sign-in-four",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/SignInFour")
+        //         },
+        //         {
+        //             path: "sign-in-five",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/SignInFive")
+        //         },
+        //         {
+        //             path: "sign-up",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/SignUp")
+        //         },
+        //         {
+        //             path: "sign-up-2",
+        //             name: "signup",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/SignUpTwo")
+        //         },
+        //         {
+        //             path: "sign-up-5",
+        //             component: () =>
+        //                 import ("@/views/app/sessions/SignUpFive")
+        //         }
+        //     ]
+        // }
+    ]
 });
-
 router.beforeEach((to, from, next) => {
-  // If this isn't an initial page load.
-  if (to.path) {
-    // Start the route progress bar.
-    store.dispatch("changeThemeLoadingState", true);
-  }
-  next();
+    // If this isn't an initial page load.
+    if (to.path) {
+        // Start the route progress bar.
+        store.dispatch("changeThemeLoadingState", true);
+    }
+    if (to.name !== 'Login' &&
+        !store.getters.isAuthenticated
+        // && !localStorage.getItem('userInfo')
+    ) {
+        next({ name: 'Login' })
+    } else { next(); }
+
+
 });
 
 router.afterEach(() => {
-  // Remove initial loading
-  // const gullPreLoading = document.getElementById("loading_wrap");
-  // if (gullPreLoading) {
-  //   gullPreLoading.style.display = "none";
-  // }
-  // Complete the animation of the route progress bar.
-  setTimeout(() => store.dispatch("changeThemeLoadingState", false), 500);
-  // NProgress.done();
-  // if (isMobile) {
-  // if (window.innerWidth <= 1200) {
-  //   // console.log("mobile");
-  //   store.dispatch("changeSidebarProperties");
-  //   if (store.getters.getSideBarToggleProperties.isSecondarySideNavOpen) {
-  //     store.dispatch("changeSecondarySidebarProperties");
-  //   }
-  //   if (store.getters.getCompactSideBarToggleProperties.isSideNavOpen) {
-  //     store.dispatch("changeCompactSidebarProperties");
-  //   }
-  // } else {
-  //   if (store.getters.getSideBarToggleProperties.isSecondarySideNavOpen) {
-  //     store.dispatch("changeSecondarySidebarProperties");
-  //   }
-  //   // store.state.sidebarToggleProperties.isSecondarySideNavOpen = false;
-  // }
+    // Complete the animation of the route progress bar.
+    setTimeout(() => store.dispatch("changeThemeLoadingState", false), 500);
+
 });
 
 export default router;

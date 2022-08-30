@@ -11,25 +11,31 @@
                     </v-avatar>
 
                     <h6 class="text--disabled font-weight-medium mb-10">
-                        Sign in to your account
+                        Log in to your account
                     </h6>
-                    <v-text-field label="Username" />
+                    <v-text-field label="Email" :rules="emailRules" name="email" v-model="credentials.email" />
 
                     <v-text-field
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show ? 'text' : 'password'"
                         name="input-10-2"
                         label="Password"
-                        value="Pa"
+                        :rules="passwordRules"
+                        v-model="credentials.password"
                         @click:append="show = !show"
                     ></v-text-field>
 
-                    <v-btn class="mb-4" block color="primary" dark
-                        >Sign Up</v-btn
-                    >
-                    <div class="d-flex justify-around flex-wrap">
-                        <h6 class="">Don't have an account ?</h6>
-                        <v-btn text small color="primary" class="mb-2"
+                    <v-btn 
+                      class="mb-4"
+                      block 
+                      color="primary"
+                      @click="formSubmit"
+                      dark>
+                      Login
+                    </v-btn>
+                    <div class="d-flex justify-between flex-wrap">
+                        <h6 class="">Don't Remember ?</h6>
+                        <v-btn text small color="primary" class="mb-2 "
                             >Forgot Password</v-btn
                         >
                     </div>
@@ -39,20 +45,44 @@
     </div>
 </template>
 <script>
+  import { mapGetters } from 'vuex';
 export default {
-    name: 'Sign Four',
+    name: 'Login',
     metaInfo: {
         // title will be injected into parent titleTemplate
-        title: 'Sign Four'
+        title: 'Login'
     },
     data() {
         return {
             show: false,
-            password: 'Password',
-            checkbox1: true,
-            checkbox2: false
+            credentials: {
+              email: '',
+              password:'',
+            },
+            emailRules: [
+              v => !!v || 'E-mail is required',
+              v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+            ],
+            passwordRules: [
+              v => !!v || 'Password is required',
+              v => (v && v.length >= 8) || 'Password must be more than 8 characters'
+            ]
+           
         }
+    },
+    computed: {
+    ...mapGetters(['loggedInUser', 'error'])
+  },
+  created() {
+      if(this.$store.getters.isAuthenticated){
+        this.$router.push({name:'Services'})
+      }
+  },
+  methods: {
+    formSubmit() {
+      this.$store.dispatch('LogIn',this.credentials);
     }
+  }
 }
 </script>
 <style lang="scss" scoped>

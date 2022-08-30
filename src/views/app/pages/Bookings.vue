@@ -32,24 +32,39 @@
                     v-model="selected"
                     :search="search"
                     :headers="headers"
-                    :items="desserts"
-                    item-key="name"
+                    :items="Bookings"
+                    item-key="first_name"
                     show-select
                     class="elevation-1 table-one"
                     multi-sort
                 >
                     <template v-slot:item.name="{item}">
                         <div class="d-flex align-center">
-                            <v-avatar class="mr-2" size="26" dark>
+                            <!-- <v-avatar class="mr-2" size="26" dark>
                                 <img :src="item.img" alt="" />
-                            </v-avatar>
+                            </v-avatar> -->
                             <p class="ma-0 font-weight-medium">
-                                {{ item.name }}
+                                {{ item.id }}
                             </p>
                         </div>
                     </template>
-                    <!-- <template v-slot:item.action="{item}">
+                    <template v-slot:item.action="{item}">
                         <div class="d-flex">
+                            <v-tooltip top>
+                                <template v-slot:activator="{on, attrs}">
+                             <v-btn
+                                        color="secondary"
+                                        dark
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        icon
+                                        to="edit-user"
+                                    >
+                                        <v-icon>mdi-eye</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>View</span>
+                            </v-tooltip>
                             <v-tooltip top>
                                 <template v-slot:activator="{on, attrs}">
                              <v-btn
@@ -80,8 +95,8 @@
                                 <span>Delete</span>
                             </v-tooltip>
                         </div>
-                    </template> -->
-                    <template v-slot:item.badge="{item}">
+                    </template>
+                    <!-- <template v-slot:item.badge="{item}">
                         <template v-if="item.badge === 'Active'">
                             <v-chip
                                 class=""
@@ -106,7 +121,7 @@
                                 {{ item.badge }}
                             </v-chip>
                         </template>
-                    </template>
+                    </template> -->
                 </v-data-table>
             </base-card>
         </v-col>
@@ -117,24 +132,24 @@
 export default {
     metaInfo: {
         // title will be injected into parent titleTemplate
-        title: 'Table One'
+        title: 'Bookings Leads'
     },
     data() {
         return {
             search: '',
             selected: [],
             headers: [
-                {
-                    text: 'User Name',
-                    align: 'start',
-                    sortable: false,
-                    value: 'name'
-                },
-                {text: 'Email', value: 'calories'},
-                {text: 'Contact No', value: 'fat'},
-                {text: 'Service', value: 'carbs'},
-                {text: 'Frequency', value: 'protein'},
-                {text: 'Message', value: 'new'},
+               
+                {text: 'Id', value: 'id'},
+                {text: 'First Name', value: 'first_name'},
+                {text: 'Last Name', value: 'last_name'},
+                {text: 'Email', value: 'email'},
+                {text: 'Phone', value: 'phone'},
+                {text: 'Message', value: 'message'},
+                {text: 'Service', value: 'get_services.title'},
+                {text: 'Frequency', value: 'get_frequency.title'},
+                {text: 'Date', value: 'created_at'},
+                {text: 'Actions', value: 'action'}
 
             ],
             desserts: [
@@ -214,6 +229,14 @@ export default {
 
             ]
         }
+    },
+    computed: {
+      Bookings(){
+        return this.$store.getters.Bookings;
+      }
+    },
+    mounted(){
+      this.$store.dispatch('Bookings');
     }
 }
 </script>

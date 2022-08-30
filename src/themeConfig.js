@@ -2,7 +2,7 @@
 // import { en } from '../../locale'
 import colors from "vuetify/lib/util/colors";
 export const themeConfig = {
-  disableCustomizer: false, // options[Boolean] : true, false(default)
+  disableCustomizer: true, // options[Boolean] : true, false(default)
 
   rtl: false, // options[Boolean] : true, false(default)
   verticalSidebarMini: false, // options[Boolean] : true, false(default)
