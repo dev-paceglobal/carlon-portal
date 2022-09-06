@@ -5,6 +5,12 @@ import router from '@/router'
 
 const state = {
     bookings: [],
+    deleteWarning: {
+        visiblity: false,
+        name: '',
+        id: 0,
+    },
+
 
 };
 const getters = {
@@ -23,6 +29,13 @@ const actions = {
             console.error(error);
         }
     },
+    async updateWarning({ commit }, data) {
+        try {
+            await commit("setDeleteWarning", data);
+        } catch (error) {
+            console.log(error, "~ UpdateWarning in bookings");
+        }
+    }
     // async Register({ dispatch }, form) {
     //     try {
     //         const {
@@ -56,6 +69,9 @@ const mutations = {
     setBookings(state, bookings) {
         state.bookings = bookings;
     },
+    setDeleteWarning(state, data) {
+        state.deleteWarning = data;
+    }
 
     // logger(state) {
     //     state.user = true;

@@ -26,27 +26,11 @@
 
       <v-spacer />
 
-      <v-badge
-        bordered
-        overlap
-        content="3"
-        color="red"
-        offset-x="22"
-        offset-y="22"
-      >
-        <v-btn icon @click="notificationDrawer = !notificationDrawer">
-          <v-icon>mdi-bell</v-icon>
-        </v-btn>
-      </v-badge>
-
-      <v-btn icon @click="searchDrawer = !searchDrawer">
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
       <v-chip pill class="transparent py-5" @click="userDrawer = !userDrawer">
-        Hi, Watson
+        Hi,
+        {{ StateUser.user_details.first_name + " " + StateUser.user_details.last_name }}
         <v-avatar class="ml-2">
-          <v-img src="@/assets/images/faces/1.jpg"></v-img>
+          <v-img :src="StateUser.user_details.image"></v-img>
         </v-avatar>
       </v-chip>
     </v-app-bar>
@@ -93,11 +77,7 @@
     >
       <notification-drawer>
         <template v-slot:notificationDrawerCloseButton>
-          <v-btn
-            icon
-            color
-            @click.stop="notificationDrawer = !notificationDrawer"
-          >
+          <v-btn icon color @click.stop="notificationDrawer = !notificationDrawer">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
@@ -115,7 +95,7 @@
     </v-navigation-drawer>
     <!-- searchDrawer -->
     <v-navigation-drawer
-      v-model="searchDrawer"
+      v-model="serviceSnackbarOptions"
       fixed
       right
       height="100%"
@@ -131,6 +111,26 @@
         </template>
       </search-drawer>
     </v-navigation-drawer>
+    <!-- Service Drawer -->
+    <v-navigation-drawer
+      v-model="addServiceDrawer"
+      fixed
+      right
+      height="100%"
+      temporary
+      floating
+      width="450"
+    >
+      <service-drawer :service="service">
+        <template v-slot:servieTitleBar> Add New Service </template>
+        <template v-slot:serviceDrawerCloseButton>
+          <v-btn icon color @click="toggleAddServiceDrawer">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
+      </service-drawer>
+    </v-navigation-drawer>
+    <baseSnackBar :options="serviceSnackbarOptions"></baseSnackBar>
   </div>
 </template>
 
@@ -142,16 +142,31 @@ export default {
   components: {
     UserDrawer: () => import("../common-drawer/UserDrawer.vue"),
     NotificationDrawer: () => import("../common-drawer/NotificationDrawer.vue"),
-    SearchDrawer: () => import("../common-drawer/SearchDrawer.vue")
+    SearchDrawer: () => import("../common-drawer/SearchDrawer.vue"),
+    serviceDrawer: () => import("../common-drawer/serviceDrawer.vue"),
   },
   computed: {
-    ...mapGetters(["getThemeMode"])
+    ...mapGetters(["getThemeMode", "StateUser", "serviceSnackbarOptions"]),
+  },
+  created() {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type == "updateServiceDrawer") {
+        this.addServiceDrawer = mutation.payload;
+      }
+    });
   },
   data() {
     return {
       userDrawer: false,
       notificationDrawer: false,
       searchDrawer: false,
+      addServiceDrawer: false,
+      service: {
+        title: '',
+        sub_title: '',
+        short_description: '',
+        description: '',
+      },
       navbarOptions: {
         elementId: "main-navbar",
         isUsingVueRouter: true,
@@ -175,7 +190,6 @@ export default {
               //   path: { name: "learning-management" },
               //   iconLeft: '<i class="mdi mdi-circle-medium"></i>'
               // },
-
               // {
               //   type: "link",
               //   text: "Job Management",
@@ -206,18 +220,18 @@ export default {
               //   path: { name: "donation" },
               //   iconLeft: '<i class="mdi mdi-circle-medium"></i>'
               // }
-            ]
-          }
-        ]
-      }
+            ],
+          },
+        ],
+      },
     };
   },
   methods: {
     ...mapActions([
       "changeVerticalSidebarDrawer",
-      ,
+      "openServiceDrawer",
       "changeVerticalSidebarMini",
-      "signOut"
+      
     ]),
     toggleVerticalSidebarDrawer() {
       this.changeVerticalSidebarDrawer();
@@ -225,12 +239,15 @@ export default {
       // this.$emit("update:mini-variant");
       // console.log("check");
     },
+    toggleAddServiceDrawer() {
+      this.addServiceDrawer = !this.addServiceDrawer;
+      this.openServiceDrawer(this.addServiceDrawer);
+    },
+    
     logoutUser() {
-      this.signOut();
-
-      this.$router.push("/app/sessions/sign-in-two");
-    }
-  }
+      this.$store.dispatch("LogOut");
+    },
+  },
 };
 </script>
 
@@ -259,8 +276,7 @@ export default {
   }
 }
 .tippy-box[data-theme~="light"] {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 .vnb {
   background: transparent !important;

@@ -1,12 +1,12 @@
 export const items = [
 
 
-    {
-        title: "Bookings",
-        icon: "mdi-account-badge",
-        group: "pages",
-        to: "bookings"
-    },
+    // {
+    //     title: "Bookings",
+    //     icon: "mdi-account-badge",
+    //     group: "pages",
+    //     to: "bookings"
+    // },
 
     {
         title: "Services",

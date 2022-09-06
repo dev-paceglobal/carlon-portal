@@ -66,9 +66,16 @@ const router = new Router({
                                 import ("@/views/app/pages/Frequency")
                         },
                         {
-                            path: "addservice",
+                            path: "add-service",
+                            name: "AddService",
                             component: () =>
                                 import ("@/views/app/pages/AddServices")
+                        },
+                        {
+                            path: "profile",
+                            name: "Profile",
+                            component: () =>
+                                import ("@/views/app/pages/Profile")
                         }
 
                     ]
